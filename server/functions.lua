@@ -29,8 +29,8 @@ NADMIN.AnalyzeNewPunishment = function(source, target, reason, method)
             local success, reason = NADMIN.BanPlayer(NEX.GetPlayerFromId(source), target, reason, nil, true)
             local data = {
                 type = "success",
-                title = "Sanción ejecutada",
-                text = "Se ha sancionado a " .. target,
+                title = "Executed sanction",
+                text = "Has been sanctioned " .. target,
                 length = 4000,
                 style = {}
             }
@@ -39,8 +39,8 @@ NADMIN.AnalyzeNewPunishment = function(source, target, reason, method)
         else
             local data = {
                 type = "error",
-                title = "Error de sanción",
-                text = "El GameID no se encuentra en línea.",
+                title = "Penalty error",
+                text = "GameID not found online.",
                 length = 4000,
                 style = {}
             }
@@ -75,7 +75,7 @@ NADMIN.RegisterNewPunish = function(xSource, type, target, reason, length, isOff
         elseif type == "WARN" then
             return NADMIN.WarnPlayer(xPlayer, xTarget, reason)
         elseif type == "KICK" then
-            NADMIN.LogToDiscord("EXPULSIÓN", xSource, xTarget.source, reason)
+            NADMIN.LogToDiscord("EXPULSION", xSource, xTarget.source, reason)
             DropPlayer(xTarget.source, reason)
             return true
         else
@@ -103,7 +103,7 @@ NADMIN.WarnPlayer = function(xSource, xTarget, reason)
 
     TriggerClientEvent('nex:Admin:GotWarned', xTarget.source, authorName, reason)
 
-    NADMIN.LogToDiscord("ADVERTENCIA/STRIKE", xSource.source or "NAC", xTarget.source, reason)
+    NADMIN.LogToDiscord("WARNING / STRIKE", xSource.source or "NAC", xTarget.source, reason)
 
     return true
 end
@@ -178,11 +178,11 @@ NADMIN.BanPlayer = function(xSource, xTarget, reason, length, isOffline)
             length = length
         })
 
-        local punish = "BAN TEMPORAL: "
+        local punish = "TEMPORARY BAN: "
         if timestring then
             punish = punish .. timestring
         else 
-            punish = "PERMANENTE"
+            punish = "PERMANENT"
         end
 
         if isOffline then 
@@ -192,14 +192,14 @@ NADMIN.BanPlayer = function(xSource, xTarget, reason, length, isOffline)
                 return false, 'DATABASE ERROR'
             end
 
-            local banType = "PERMANENTE"
+            local banType = "PERMANENT"
             if timestring then
-                banType = "BAN TEMPORAL, duración: " .. timestring
+                banType = "TEMPORARY BAN, duration: " .. timestring
             end
 
             TriggerClientEvent('nex:Admin:GotBanned', xTarget.source, reason)
             Citizen.SetTimeout(9600, function()
-                DropPlayer(xTarget.source, Config.BanFormat:format(reason,length~=nil and timestring or "PERMANENTE",xPlayerName,banid==nil and "1" or banid))
+                DropPlayer(xTarget.source, Config.BanFormat:format(reason,length~=nil and timestring or "PERMANENT",xPlayerName,banid==nil and "1" or banid))
             end)
 
         end
@@ -247,24 +247,24 @@ NADMIN.LogToDiscord = function(category, playerId, targetId, message)
         data = {
             embeds = {
                 {
-                    title = "[VIGILANTE] SANCION EJECUTADA",
-                    description = "Se ha ejecutado un castigo:",
+                    title = "[VIGILANTE] SANCTION EXECUTED",
+                    description = "A punishment has been executed:",
                     color = 16771840,
                     fields = {
                         {
-                            name = "SANCIONADOR: SteamName | DB | GameID",
+                            name = "SANCTIONER: SteamName | DB | GameID",
                             value = xPlayer.getName() .. " | " .. xPlayer.getDBId() .. " | " .. xPlayer.source 
                         },
                         {
-                            name = "SANCIONADO: Data",
+                            name = "SANCTIONED: Data",
                             value = tostring(targetId)
                         },
                         {
-                            name = "TIPO SANCIÓN:",
+                            name = "TYPE OF SANCTION:",
                             value = category 
                         },
                         {
-                            name = "MOTIVO:",
+                            name = "REASON:",
                             value = message
                         },
                     },
@@ -282,24 +282,24 @@ NADMIN.LogToDiscord = function(category, playerId, targetId, message)
         data = {
             embeds = {
                 {
-                    title = "[VIGILANTE] SANCION EJECUTADA",
-                    description = "Se ha ejecutado un castigo:",
+                    title = "[VIGILANTE] SANCTION EXECUTED",
+                    description = "A punishment has been executed:",
                     color = 16771840,
                     fields = {
                         {
-                            name = "SANCIONADOR: SteamName | DB | GameID",
+                            name = "SANCTIONER: SteamName | DB | GameID",
                             value = xPlayer.getName() .. " | " .. xPlayer.getDBId() .. " | " .. xPlayer.source 
                         },
                         {
-                            name = "SANCIONADO: SteamName | DB | GameID",
+                            name = "SANCTION: SteamName | DB | GameID",
                             value = xTarget.getName() .. " | " .. xTarget.getDBId() .. " | " .. xTarget.source 
                         },
                         {
-                            name = "TIPO SANCIÓN:",
+                            name = "TYPE OF SANCTION:",
                             value = category 
                         },
                         {
-                            name = "MOTIVO:",
+                            name = "REASON:",
                             value = message
                         },
                     },
@@ -321,7 +321,7 @@ end
 NADMIN.LogToAdmins = function(message)
     for k,v in ipairs(NEX.GetPlayers()) do  
         if isAdmin(NEX.GetPlayerFromId(v)) then
-            TriggerClientEvent("chat:addMessage",v,{color={255,0,0},multiline=false,args={"[SANCIONES] ",msg}})
+            TriggerClientEvent("chat:addMessage",v,{color={255,0,0},multiline=false,args={"[SANCTIONS] ",msg}})
         end
     end
 end

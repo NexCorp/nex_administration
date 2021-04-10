@@ -40,43 +40,43 @@ PlayersMenu.Main = function()
     local me = PlayersMenu.OnlinePlayers[PlayersMenu.myPlayer]
 
     if me ~= nil then
-        if WarMenu.MenuButton("[YO] [".. me.dbId .."] (".. me.charId ..") " .. me.serverId .." | ".. me.name, "nexadmin_players_inspect") then
+        if WarMenu.MenuButton("[ME] [".. me.dbId .."] (".. me.charId ..") " .. me.serverId .." | ".. me.name, "nexadmin_players_inspect") then
             PlayersMenu.currentPlayer = PlayersMenu.myPlayer
         end
     end
 
-    WarMenu.MenuButton('[📛] Sancionar Jugador', 'nexadmin_players_punishments')
+    WarMenu.MenuButton('[📛] Punish Player', 'nexadmin_players_punishments')
 
     -- if WarMenu.Button('[📛] Sanciones') then
     --     TriggerEvent("nex:Admin:ShowPADInterface", "punishlist")
     --     WarMenu.CloseMenu()
     -- end
 
-    if WarMenu.Button('[📛] Generar código CK') then
+    if WarMenu.Button('[📛] Generate CK code') then
         NEX.UI.Menu.Open("dialog", GetCurrentResourceName(), 'nex_ck_generator', {
-            title = "Ingrese el CharId del jugador:"
+            title = "Enter the player's CharId:"
         }, function(menuData, dialogHandle)
             local targetCharId = tonumber(menuData.value)
         
             if targetCharId > 0 then
 
                 NEX.UI.Menu.Open("dialog", GetCurrentResourceName(), 'nex_ck_generator_reason', {
-                    title = "Especifique la razón, deje constancía del TicketID, nombres y descripción:"
+                    title = "Specify the reason, state the TicketID, names and description:"
                 }, function(menuData2, dialogHandle2)
                     local reason = tostring(menuData2.value)
 
                     if string.len(reason) > 15 then
                         NEX.TriggerServerCallback('nex:Admin:GenerateCKCode', function(response, code)
                             if response then
-                                TriggerEvent('nex:Core:showNotification', '~g~¡Código generado!')
-                                NEX.UI.SendAlert('success', 'CK Generado', 'El código se ha genrado: #<b style="color:yellow;">'.. code ..'</b>', 12000)
+                                TriggerEvent('nex:Core:showNotification', '~g~Generated code!')
+                                NEX.UI.SendAlert('success', 'CK Generated', 'The code has been generated: #<b style="color:yellow;">'.. code ..'</b>', 12000)
                             else
-                                NEX.UI.SendAlert('error', 'CK', 'El código no pudo ser generado.')
+                                NEX.UI.SendAlert('error', 'CK', 'The code could not be generated.')
                             end
                         end, targetCharId, reason)
                         dialogHandle2.close()
                     else
-                        NEX.UI.SendAlert('error', 'CK', 'Entregue más información de este código.')
+                        NEX.UI.SendAlert('error', 'CK', 'Give more information about this code.')
                     end
                     
                 end, function(menuData2, dialogHandle2)
@@ -84,7 +84,7 @@ PlayersMenu.Main = function()
                 end)
 
             else
-                TriggerEvent('nex:Core:showNotification', "~r~El ID debe ser válido.")
+                TriggerEvent('nex:Core:showNotification', "~r~ID must be valid.")
             end
 
             dialogHandle.close()
@@ -106,21 +106,21 @@ end
 
 PlayersMenu.DoPunishmentsDialog = function(method)
     NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'ban_target_dialog', {
-        title = ('Introduzca el identificador ('.. method ..'):'),
+        title = ('Enter the identifier ('.. method ..'):'),
         value = ""
     }, function(data, menu)
         target = tostring(data.value)
         if string.len(target) < 1 then
-            return NEX.ShowNotification('~r~Objetivo no válido.')
+            return NEX.ShowNotification('~r~Invalid target.')
         end
 
         NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'ban_reason_dialog', {
-            title = ('RAZÓN DEL BAN'),
+            title = ('REASON FOR BAN'),
             value = ""
         }, function(data2, menu2)
             reason = tostring(data2.value)
             if string.len(reason) < 3 then
-                return NEX.ShowNotification('~r~La razón no es válida.')
+                return NEX.ShowNotification('~r~The reason is not valid.')
             end
 
             TriggerServerEvent('nex:Admin:ExecutePunishment', target, reason, method)
@@ -140,13 +140,13 @@ end
 
 PlayersMenu.DoPunishments = function()
 
-    if WarMenu.Button('[❌] Banear por Licencia') then
+    if WarMenu.Button('[❌] Ban by license') then
         PlayersMenu.DoPunishmentsDialog("license")
     -- elseif WarMenu.Button('[❌] Banear por SteamID') then
     --     PlayersMenu.DoPunishmentsDialog("steam")
-    elseif WarMenu.Button('[❌] Banear por DB ID') then
+    elseif WarMenu.Button('[❌] Ban by DB ID') then
         PlayersMenu.DoPunishmentsDialog("db")
-    elseif WarMenu.Button('[❌] Banear por Game ID') then
+    elseif WarMenu.Button('[❌] Ban by Game ID') then
         PlayersMenu.DoPunishmentsDialog("id")
     end
 
@@ -157,25 +157,25 @@ PlayersMenu.PlayerIntegrity = function()
     local playerData = PlayersMenu.OnlinePlayers[PlayersMenu.currentPlayer]
 
     if PlayersMenu.integrityPlayer ~= nil then
-        if WarMenu.Button('Nombre:', PlayersMenu.integrityPlayer.firstname.." "..PlayersMenu.integrityPlayer.lastname) then
+        if WarMenu.Button('Surname:', PlayersMenu.integrityPlayer.firstname.." "..PlayersMenu.integrityPlayer.lastname) then
             NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_firstname', {
-                title = ('INGRESA EL NOMBRE:'),
+                title = ('ENTER THE NAME:'),
                 value = PlayersMenu.integrityPlayer.firstname
             }, function(data, menu)
                 name = tostring(data.value)
                 if name == nil or name == "" then
-                    NEX.ShowNotification('Nombre Inválido')
+                    NEX.ShowNotification('Invalid name')
                 else
                     if string.len(name) >= 4 then
                         PlayersMenu.integrityPlayer.firstname = name
                         menu.close()
                         NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_lastname', {
-                            title = ('INGRESA EL APELLIDO:'),
+                            title = ('ENTER LAST NAME:'),
                             value = PlayersMenu.integrityPlayer.lastname
                         }, function(data2, menu2)
                             lname = tostring(data2.value)
                             if lname == nil or lname == "" then
-                                return NEX.ShowNotification('Apellido Inválido')
+                                return NEX.ShowNotification('Invalid Last Name')
                             end
 
                             PlayersMenu.integrityPlayer.lastname = lname
@@ -185,7 +185,7 @@ PlayersMenu.PlayerIntegrity = function()
                             menu2.close()
                         end)
                     else
-                        return NEX.ShowNotification('Ingresa un nombre válido.')
+                        return NEX.ShowNotification('Please enter a valid name.')
                     end
                 end
             end, function(data, menu)
@@ -193,14 +193,14 @@ PlayersMenu.PlayerIntegrity = function()
             end)
         end
 
-        if WarMenu.Button('Fecha Nacimiento:', PlayersMenu.integrityPlayer.dob) then
+        if WarMenu.Button('Birth date:', PlayersMenu.integrityPlayer.dob) then
             NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_dob', {
-                title = ('FECHA NACIMIENTO: (Formato: dd-mm-yyyy'),
+                title = ('Birth date: (Format: dd-mm-yyyy'),
                 value = PlayersMenu.integrityPlayer.dob
             }, function(data2, menu2)
                 dob = tostring(data2.value)
                 if dob == nil or dob == "" or not string.match(dob, "-") then
-                    return NEX.ShowNotification('Fecha Inválida')
+                    return NEX.ShowNotification('Invalid Date')
                 end
 
                 PlayersMenu.integrityPlayer.dob = dob
@@ -211,14 +211,14 @@ PlayersMenu.PlayerIntegrity = function()
             end)
         end
 
-        if WarMenu.Button('Modelo (sexo):', PlayersMenu.integrityPlayer.sex) then
+        if WarMenu.Button('Model (gender):', PlayersMenu.integrityPlayer.sex) then
             NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_sex', {
-                title = ('SEXO: (Formato: "f": Femenino | "m": Masculino'),
+                title = ('SEX: (Format: "f": Female | "m": Male'),
                 value = PlayersMenu.integrityPlayer.sex
             }, function(data, menu)
                 sex = tostring(data.value)
                 if sex ~= "f" or sex ~= "m" then
-                    return NEX.ShowNotification('Sexo Inválido')
+                    return NEX.ShowNotification('Sex Invalid')
                 end
 
                 PlayersMenu.integrityPlayer.sex = sex
@@ -229,14 +229,14 @@ PlayersMenu.PlayerIntegrity = function()
             end)
         end
 
-        if WarMenu.Button('Altura:', PlayersMenu.integrityPlayer.height) then
+        if WarMenu.Button('Height:', PlayersMenu.integrityPlayer.height) then
             NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_hei', {
-                title = ('ALTURA: (Formato: centímetros)'),
+                title = ('Height: (Format: centimeters)'),
                 value = PlayersMenu.integrityPlayer.height
             }, function(data, menu)
                 hei = tonumber(data.value)
                 if hei and hei < 150 and hei > 200 then
-                    return NEX.ShowNotification('Altura Inválida')
+                    return NEX.ShowNotification('Height Invalid')
                 end
 
                 PlayersMenu.integrityPlayer.height = hei
@@ -247,15 +247,15 @@ PlayersMenu.PlayerIntegrity = function()
             end)
         end
 
-        WarMenu.Button('~y~OPCIONES AVANZADAS')
-        if WarMenu.Button('Establecer VIP', PlayersMenu.integrityPlayer.vip) then
+        WarMenu.Button('~y~ADVANCED OPTIONS')
+        if WarMenu.Button('Set VIP', PlayersMenu.integrityPlayer.vip) then
             NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_vip', {
-                title = ('VIP: (Formato: 0 a 6)'),
+                title = ('VIP: (Format: 0 to 6)'),
                 value = PlayersMenu.integrityPlayer.vip
             }, function(data, menu)
                 vip = tonumber(data.value)
                 if hei and vip < 0 and vip > 6 then
-                    return NEX.ShowNotification('VIP Inválido')
+                    return NEX.ShowNotification('VIP Invalid')
                 end
 
                 PlayersMenu.integrityPlayer.vip = vip
@@ -266,14 +266,14 @@ PlayersMenu.PlayerIntegrity = function()
             end)
         end
 
-        if WarMenu.Button('Desbloquear Personajes', PlayersMenu.integrityPlayer.unlocked) then
+        if WarMenu.Button('Unlock characters', PlayersMenu.integrityPlayer.unlocked) then
             NEX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'change_unlocked', {
-                title = ('VIP: (Formato: 0 a 4)'),
+                title = ('VIP: (Format: 0 to 4)'),
                 value = PlayersMenu.integrityPlayer.unlocked
             }, function(data, menu)
                 unl = tonumber(data.value)
                 if unl and unl < 0 and unl > 4 then
-                    return NEX.ShowNotification('Monto Inválido')
+                    return NEX.ShowNotification('Invalid Amount')
                 end
 
                 PlayersMenu.integrityPlayer.unlocked = unl
@@ -284,16 +284,16 @@ PlayersMenu.PlayerIntegrity = function()
             end)
         end
 
-        if WarMenu.Button('[✅] ~g~GUARDAR CAMBIOS') then
+        if WarMenu.Button('[✅] ~g~SAVE CHANGES') then
             NEX.TriggerServerCallback('nex:Admin:ChangeGameData', function(result)
                 if result then
-                    print("Successfully player saved.")
+                    print("Player successfully saved.")
                 end
             end, playerData.serverId, PlayersMenu.integrityPlayer)
         end
 
     else
-        WarMenu.Button('== [❌] ERROR AL CARGAR')
+        WarMenu.Button('== [❌] ERROR WHEN LOADING')
     end
 
     --TODO 
@@ -307,13 +307,13 @@ PlayersMenu.PlayersOptions = function()
 
     local playerData = PlayersMenu.OnlinePlayers[PlayersMenu.currentPlayer]
 
-    WarMenu.Button('[💠] IDENTIFICADORES')
+    WarMenu.Button('[💠] IDENTIFIERS')
 
     if WarMenu.IsItemHovered() then
         WarMenu.ToolTip('DB: ' .. playerData.dbId .. "\nCharId: " .. playerData.charId ..'\nServerId: '..playerData.serverId)
     end
 
-    if WarMenu.MenuButton('[🔰] Gestión de integridad', 'nexadmin_player_integrity') then
+    if WarMenu.MenuButton('[🔰] Integrity management', 'nexadmin_player_integrity') then
         NEX.TriggerServerCallback('nex:Admin:GetGameData', function(gameData)
             PlayersMenu.integrityPlayer = gameData
         end, playerData.serverId)
@@ -329,63 +329,63 @@ PlayersMenu.PlayersOptions = function()
     -- if WarMenu.MenuButton('[🧍🏽‍♂️] Gestor Outift') then
     -- end
 
-    WarMenu.Button('------------ [ OPCIONES ] ------------')
+    WarMenu.Button('------------ [ Options ] ------------')
 
-    if WarMenu.Button("Solicitar Screenshot:") then
+    if WarMenu.Button("Request screenshot:") then
         TriggerServerEvent('nex:Admin:Reports:RequetsPlayerScreenshot', playerData.serverId)
-        NEX.UI.SendAlert('inform', 'Staff Action', 'Estamos procesando la solicitud...', 4000, {})
+        NEX.UI.SendAlert('inform', 'Staff Action', 'We are processing the request...', 4000, {})
         WarMenu.CloseMenu()
     end
     if WarMenu.IsItemHovered() then
-        WarMenu.ToolTip('Envia una imagen de la pantalla del jugador al registro del discord.')
+        WarMenu.ToolTip('Send an image of the players screen to the discord registry.')
     end
 
-    if WarMenu.CheckBox("Congelar:", playerData.isFreeze) then
+    if WarMenu.CheckBox("Freeze:", playerData.isFreeze) then
         playerData.isFreeze = not playerData.isFreeze
         TriggerServerEvent("nex:Admin:ToggleFreeze", playerData.serverId, playerData.isFreeze)
     end
 
-    WarMenu.Button('------------ [ SANCIONES ] ------------')
+    WarMenu.Button('------------ [ SANCTIONS ] ------------')
 
-    SetTextEntryToFunction('Ingrese su motivo de expulsión:')
-    local pressed, inputTextKick = WarMenu.InputButton('[🚨] Expulsar Jugador', "FMMC_MPM_NA")
+    SetTextEntryToFunction('Enter your reason for expulsion:')
+    local pressed, inputTextKick = WarMenu.InputButton('[🚨] Eject Player', "FMMC_MPM_NA")
     if pressed then
         if inputTextKick and string.len(inputTextKick) > 3 then
             NEX.TriggerServerCallback('nex:Admin:RegisterNewPunish', function(success)
                 if success then
-                    NEX.UI.SendAlert('success', '¡Sanción ejecutada!', '', 5000, {})
+                    NEX.UI.SendAlert('success', 'Sanction executed!', '', 5000, {})
                 else
-                    NEX.UI.SendAlert('error', '¡Whoops! 🔴 No autorizado.', '', 5000, {})
+                    NEX.UI.SendAlert('error', 'Whoops! 🔴 Not authorized.', '', 5000, {})
                 end
             end, "KICK", playerData.serverId, inputTextKick, nil, false)
         end
     end
 
-    SetTextEntryToFunction('Ingrese su motivo de advertencia:')
-    local pressed, inputText = WarMenu.InputButton('[🚨] Advertir jugador', "FMMC_MPM_NA")
+    SetTextEntryToFunction('Enter your reason for warning:')
+    local pressed, inputText = WarMenu.InputButton('[🚨] Warning player', "FMMC_MPM_NA")
     
     if pressed then
         if inputText and string.len(inputText) > 3 then
             NEX.TriggerServerCallback('nex:Admin:RegisterNewPunish', function(success)
                 if success then
-                    NEX.UI.SendAlert('success', '¡Sanción ejecutada!', '', 5000, {})
+                    NEX.UI.SendAlert('success', 'Sanction executed!', '', 5000, {})
                 else
-                    NEX.UI.SendAlert('error', '¡Whoops! 🔴 No autorizado.', '', 5000, {})
+                    NEX.UI.SendAlert('error', 'Whoops! 🔴 Not authorized.', '', 5000, {})
                 end
             end, "WARN", playerData.serverId, inputText, nil, false)
         end
     end
 
-    SetTextEntryToFunction('Ingrese su motivo de baneo:')
-    local pressed, inputText = WarMenu.InputButton('[🚨] Banear jugador', "FMMC_MPM_NA")
+    SetTextEntryToFunction('Enter your ban reason:')
+    local pressed, inputText = WarMenu.InputButton('[🚨] Ban player', "FMMC_MPM_NA")
     
     if pressed then
         if inputText and string.len(inputText) > 3 then
             NEX.TriggerServerCallback('nex:Admin:RegisterNewPunish', function(success)
                 if success then
-                    NEX.UI.SendAlert('success', '¡Sanción ejecutada!', '', 5000, {})
+                    NEX.UI.SendAlert('success', 'Sanction executed!', '', 5000, {})
                 else
-                    NEX.UI.SendAlert('error', '¡Whoops! 🔴 No autorizado.', '', 5000, {})
+                    NEX.UI.SendAlert('error', 'Whoops! 🔴 Not authorized.', '', 5000, {})
                 end
             end, "BAN", playerData.serverId, inputText, nil, false)
         end

@@ -5,24 +5,24 @@ TriggerServerEvent('nex:Admin:Reports:init')
 
 RegisterNetEvent('nex:Admin:Reports:CreateReport')
 AddEventHandler('nex:Admin:Reports:CreateReport', function(message)
-    NEX.UI.SendAlert('error', 'Reporte', 'Se esta procesando y enviando su reporte, por favor espere.', 4000, {})
+    NEX.UI.SendAlert('error', 'Reports', 'Your report is being processed and sent, please wait.', 4000, {})
 
     if Config.UseSreenshotBasic then
         TriggerEvent('nex:Admin:Reports:Screenshot', function(imageUrl)
             NEX.TriggerServerCallback('nex:Admin:Reports:SendReport', function(success)
                 if success then
-                    NEX.UI.SendAlert('success', 'Reporte', 'Su reporte ha sido enviado.', 4000, {})
+                    NEX.UI.SendAlert('success', 'report', 'Your report has been sent.', 4000, {})
                 else
-                    NEX.UI.SendAlert('error', 'Reporte', 'Por favor espere o compruebe su mensaje.', 4000, {})
+                    NEX.UI.SendAlert('error', 'report', 'Please wait or check your message.', 4000, {})
                 end
             end, message, imageUrl)
         end)
     else
         NEX.TriggerServerCallback('nex:Admin:Reports:SendReport', function(success)
             if success then
-                NEX.UI.SendAlert('success', 'Reporte', 'Su reporte ha sido enviado.', 4000, {})
+                NEX.UI.SendAlert('success', 'report', 'Your report has been sent.', 4000, {})
             else
-                NEX.UI.SendAlert('error', 'Reporte', 'Por favor espere o compruebe su mensaje.', 4000, {})
+                NEX.UI.SendAlert('error', 'report', 'Please wait or check your message.', 4000, {})
             end
         end, message, nil)
     end

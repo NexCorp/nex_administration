@@ -1,19 +1,19 @@
 ServerMenu = {}
 
 ServerMenu.WeatherList = {
-    ["EXTRASUNNY"] = "Soleado",
-    ["CLEAR"] = "Cielo Despejado",
+    ["EXTRASUNNY"] = "Sunny",
+    ["CLEAR"] = "Clear sky",
     ["SMOG"] = "Smog",
-    ["FOGGY"] = "Brumoso",
-    ['OVERCAST'] = "Nublado",
-    ['CLOUDS'] = "Pocas Nubes",
-    ['CLEARING'] = "Cielo Claro",
-    ['LLUVIA'] = "Lluvia",
-    ['THUNDER'] = "Tormenta",
-    ['SNOW']    = "Nieve",
-    ['BLIZZARD'] = "Tormenta de Nieve",
-    ['SNOWLIGTH'] = "Haz de Nieve",
-    ['XMAS'] = "Nieve Navideña"
+    ["FOGGY"] = "Foggy",
+    ['OVERCAST'] = "Overcast",
+    ['CLOUDS'] = "A Little Cloudy",
+    ['CLEARING'] = "Clear sky",
+    ['LLUVIA'] = "Rain",
+    ['THUNDER'] = "Thunder",
+    ['SNOW']    = "Snow",
+    ['BLIZZARD'] = "Snow storm",
+    ['SNOWLIGTH'] = "Snow Beam",
+    ['XMAS'] = "Christmas Snow"
 } 
 
 ServerMenu.DayTimeHour = {}
@@ -23,9 +23,9 @@ ServerMenu.minuteIndex = 1
 
 ServerMenu.Main = function()
 
-    WarMenu.MenuButton('[💥] Anuncios Globales', 'nexadmin_server_announce')
+    WarMenu.MenuButton('[💥] Global Ads', 'nexadmin_server_announce')
     if WarMenu.IsItemHovered() then
-        WarMenu.ToolTip('~w~Envia un anuncio global al servidor.')
+        WarMenu.ToolTip('~w~Send a global advertisement to the server.')
     end
 
     
@@ -64,18 +64,18 @@ ServerMenu.Weather = function()
     end
         
 
-    local _, _hourIndex = WarMenu.ComboBox("Hora", ServerMenu.DayTimeHour, ServerMenu.hourIndex)
+    local _, _hourIndex = WarMenu.ComboBox("Hour", ServerMenu.DayTimeHour, ServerMenu.hourIndex)
     if ServerMenu.hourIndex ~= _hourIndex then
         ServerMenu.hourIndex = _hourIndex
     end
 
 
-    local _, _minuteIndex = WarMenu.ComboBox("Minuto", ServerMenu.DayTimeHour, ServerMenu.minuteIndex)
+    local _, _minuteIndex = WarMenu.ComboBox("Minute", ServerMenu.DayTimeHour, ServerMenu.minuteIndex)
     if ServerMenu.minuteIndex ~= _minuteIndex then
         ServerMenu.minuteIndex = _minuteIndex
     end
 
-    if WarMenu.Button('~y~Actualizar Tiempo a las: ~s~' .. displayHour .. ":" .. displayMinute .. " " .. hourName) then
+    if WarMenu.Button('~y~Update time to: ~s~' .. displayHour .. ":" .. displayMinute .. " " .. hourName) then
         -- Change this line with yout Timer Sync event
         TriggerServerEvent('nex:Sync:SetTime', displayHour, displayMinute)
     end
@@ -94,31 +94,31 @@ end
 
 ServerMenu.Announce = function()
 
-    SetTextEntryToFunction('Escriba el mensaje del anuncio:') 
-    local screenAnnouncePressed, inputText = WarMenu.InputButton('[🟢] Anunciar en pantalla', "FMMC_MPM_NA")
+    SetTextEntryToFunction('Write your ad message:') 
+    local screenAnnouncePressed, inputText = WarMenu.InputButton('[🟢] Announce on screen', "FMMC_MPM_NA")
     
     if screenAnnouncePressed then
         if inputText and string.len(inputText) > 4 then
-            NEX.UI.SendAlert('success', 'Enviando anuncio...', {})
+            NEX.UI.SendAlert('success', 'Sending ad...', {})
 
             Citizen.Wait(2000)
             TriggerServerEvent('nex:Admin:SendGlobalAnnounce', inputText)
 
         else
-            NEX.UI.SendAlert('error', '¡Whoops! 🔴 Su anuncio debe contener mínimo 5 carácteres.', {})
+            NEX.UI.SendAlert('error', 'Whoops! 🔴 Your ad must contain at least 5 characters.', {})
         end
     end
 
-    screenAnnouncePressed, inputText = WarMenu.InputButton('[🟣] Anunciar notificación', "FMMC_MPM_NA")
+    screenAnnouncePressed, inputText = WarMenu.InputButton('[🟣] Announce notification', "FMMC_MPM_NA")
     
     if screenAnnouncePressed then
         if inputText and string.len(inputText) > 4 then
-            NEX.UI.SendAlert('success', 'Enviando anuncio...', {})
+            NEX.UI.SendAlert('success', 'Sending ad...', {})
 
             Citizen.Wait(2000)
             local data = {
                 type = "inform",
-                title = "<b>ANUNCIO DE ADMINISTRACIÓN</b>",
+                title = "<b>ADMINISTRATION ANNOUNCEMENT</b>",
                 text = inputText,
                 length = 20000,
                 style = {
@@ -129,7 +129,7 @@ ServerMenu.Announce = function()
             TriggerServerEvent('nex:Admin:SendGlobalNotification', data)
 
         else
-            NEX.UI.SendAlert('error', '¡Whoops! 🔴 Su anuncio debe contener mínimo 5 carácteres.', {})
+            NEX.UI.SendAlert('error', 'Whoops! 🔴 Your ad must contain at least 5 characters.', {})
         end
     end
 

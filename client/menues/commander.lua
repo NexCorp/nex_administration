@@ -6,24 +6,24 @@ CommanderMenu.Main = function()
     if WarMenu.CheckBox('Godmode: ', CommanderMenu.GodMode) then
         CommanderMenu.GodMode = not CommanderMenu.GodMode
         if CommanderMenu.GodMode then 
-            NEX.UI.SendAlert('success', 'Modo Dios', 'Activado', 2000)
+            NEX.UI.SendAlert('success', 'God mode', 'Activated', 2000)
             CommanderMenu.GodModeThreads() 
         else
-            NEX.UI.SendAlert('error', 'Modo Dios', 'Desactivado', 2000)
+            NEX.UI.SendAlert('error', 'God mode', 'Deactivated', 2000)
         end
     end
 
-    if WarMenu.Button('Gestor de ropa') then
+    if WarMenu.Button('Clothing manager') then
         TriggerEvent('nex:Clothing:OpenClothingMenu', "clothesmenu")
         WarMenu.CloseMenu()
     end
 
-    if WarMenu.Button('Gestor de apariencia') then
+    if WarMenu.Button('Appearance manager') then
         TriggerEvent('nex:Clothing:OpenStartingMenu')
         WarMenu.CloseMenu()
     end
 
-    if WarMenu.Button('Gestor de outfits') then
+    if WarMenu.Button('Outfit manager') then
         TriggerEvent('openOutfitsMenu', true)
         WarMenu.CloseMenu()
     end

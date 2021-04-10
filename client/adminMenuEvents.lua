@@ -17,7 +17,7 @@ AddEventHandler("nex:Admin:ReceiveAGlobalMessage",function(sender, message)
 
     TriggerMusicEvent('FHPRB_START')
 
-	TriggerEvent("chat:addMessage",{color={255,255,0},multiline=true,args={"[ANUNCIO] ","¡Anuncio entrante de ".. sender .."!"}})
+	TriggerEvent("chat:addMessage",{color={255,255,0},multiline=true,args={"[AD] ","Incoming ad from ".. sender .."!"}})
 	
 	local counts = 8
 	while true do
@@ -38,7 +38,7 @@ AddEventHandler("nex:Admin:ReceiveAGlobalMessage",function(sender, message)
     end)
     
 	PlaySoundFrontend(-1, "Goal", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-	NEX.Scaleform.ShowFreemodeMessage('~r~¡ANUNCIO GENERAL!', "Anuncio de Administración \n~y~" .. message, 10)
+	NEX.Scaleform.ShowFreemodeMessage('~r~GENERAL ANNOUNCEMENT!', "Administration announcement \n~y~" .. message, 10)
 	PlaySoundFrontend(-1, "Out_Of_Area", "DLC_Lowrider_Relay_Race_Sounds", 1)
 	PlaySoundFrontend(-1, "Zone_Enemy_Capture", "DLC_Apartments_Drop_Zone_Sounds", 1)
 end)
