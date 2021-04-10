@@ -11,7 +11,7 @@ Citizen.CreateThread(function()
     SetDayTime()
     if HasAuthorization then
 
-        RegisterKeyMapping('open_admin_menu', 'Menú Administrador', 'KEYBOARD', 'PAGEDOWN')
+        RegisterKeyMapping('open_admin_menu', 'Administrator menu', 'KEYBOARD', 'PAGEDOWN')
 
         RegisterCommand('open_admin_menu', function()
             OpenAdminMenu()
@@ -72,24 +72,24 @@ SetDayTime = function()
 end
 
 OpenAdminMenu = function()
-    WarMenu.CreateMenu('nexadmin', 'Administrador', '~y~Menu de Gestion')
+    WarMenu.CreateMenu('nexadmin', 'Administrator', '~y~Management menu')
 
-    WarMenu.CreateSubMenu('nexadmin_commands', 'nexadmin', '[🔰] Comandos Rapidos')
-    WarMenu.CreateSubMenu('nexadmin_players', 'nexadmin', '[🕺🏽] Gestion de Jugadores')
-    WarMenu.CreateSubMenu('nexadmin_factions', 'nexadmin', '[🚩] Gestion de Facciones')
-    WarMenu.CreateSubMenu('nexadmin_server', 'nexadmin', "[🔰] Gestion del Servidor")
+    WarMenu.CreateSubMenu('nexadmin_commands', 'nexadmin', '[🔰] Quick commands')
+    WarMenu.CreateSubMenu('nexadmin_players', 'nexadmin', '[🕺🏽] Player Management')
+    WarMenu.CreateSubMenu('nexadmin_factions', 'nexadmin', '[🚩] Faction management')
+    WarMenu.CreateSubMenu('nexadmin_server', 'nexadmin', "[🔰] Server management")
 
 
     -- FACTIONS
 
     -- PLAYERS
-    WarMenu.CreateSubMenu('nexadmin_players_inspect', 'nexadmin_players', "[🔰] Inspeccionando Jugador")
-    WarMenu.CreateSubMenu('nexadmin_player_integrity', 'nexadmin_players_inspect', "[🔰] Gestionado Integridad")
-    WarMenu.CreateSubMenu('nexadmin_players_punishments', 'nexadmin_players', "[🔰] Sancionando")
+    WarMenu.CreateSubMenu('nexadmin_players_inspect', 'nexadmin_players', "[🔰] Inspecting Player")
+    WarMenu.CreateSubMenu('nexadmin_player_integrity', 'nexadmin_players_inspect', "[🔰] Managed Integrity")
+    WarMenu.CreateSubMenu('nexadmin_players_punishments', 'nexadmin_players', "[🔰] Sanctioning")
 
     -- SERVER
-    WarMenu.CreateSubMenu('nexadmin_server_announce', 'nexadmin_server', "[💨] ENVIAR ANUNCIOS")
-    WarMenu.CreateSubMenu('nexadmin_server_weather', 'nexadmin_server', '[🌞] Estado Climatico')
+    WarMenu.CreateSubMenu('nexadmin_server_announce', 'nexadmin_server', "[💨] SEND ANNOUNCEMENTS")
+    WarMenu.CreateSubMenu('nexadmin_server_weather', 'nexadmin_server', '[🌞] Climate status')
 
     WarMenu.SetMenuY('nexadmin', 0.40)
 
@@ -104,13 +104,13 @@ OpenAdminMenu = function()
         if WarMenu.IsMenuOpened('nexadmin') then
             isMenuOpen = true
 
-            WarMenu.MenuButton('[🔰] Comandos Rapidos',   'nexadmin_commands')
+            WarMenu.MenuButton('[🔰] Quick commands',   'nexadmin_commands')
 
-            if WarMenu.MenuButton('[🕺🏽] Gestión Jugadores',     'nexadmin_players') then
+            if WarMenu.MenuButton('[🕺🏽] Player Management',     'nexadmin_players') then
                 PlayersMenu.ProccessOnlinePlayers()
             end
 
-            WarMenu.MenuButton('[🔰] Gestion del Servidor',  'nexadmin_server')
+            WarMenu.MenuButton('[🔰] Server management',  'nexadmin_server')
 
             WarMenu.End()
         elseif WarMenu.IsMenuOpened('nexadmin_commands') then

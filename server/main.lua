@@ -18,8 +18,8 @@ Citizen.CreateThread(function()
             NADMIN.refreshBanCache()
             local data = {
                 type = "success",
-                title = "¡Sistemas refrescados!",
-                text = "Los sistemas se han refrescado exitosamente.",
+                title = "Systems Refreshed!",
+                text = "Systems have been successfully refreshed.",
                 length = 4000,
                 style = {}
             }
@@ -31,13 +31,13 @@ Citizen.CreateThread(function()
         elseif cmd == "refresh" then
             
         end
-    end, false, {help = "PAD de Administración", validate = false, arguments = {
-        {name = 'refresh', help = "Utiliza 'refresh' para refrescar la lista de sanciones.", type = 'any'},
+    end, false, {help = "Administration PAD", validate = false, arguments = {
+        {name = 'refresh', help = "Use 'refresh' to refresh the sanctions list.", type = 'any'},
     }})
 
     NEX.RegisterCommand('reports', 'admin', function(xPlayer, args, showError)
         TriggerClientEvent("nex:Admin:Reports:ShowPanel", xPlayer.source)
-    end, false, {help = "PAD de Administración", validate = true, arguments = {}})
+    end, false, {help = "Administration PAD", validate = true, arguments = {}})
 
 
     NEX.RegisterCommand('goto', 'admin', function(xPlayer, args, showError)
@@ -45,8 +45,8 @@ Citizen.CreateThread(function()
         local coords = args.playerId.getCoords()
         xPlayer.setCoords(coords, 0)
 
-    end, false, {help = "Ir hacia un jugador", validate = true, arguments = {
-        {name = 'playerId', help = "ID de jugador a teletransportarse.", type = 'player'},
+    end, false, {help = "Go to a player", validate = true, arguments = {
+        {name = 'playerId', help = "Player ID to teleport to.", type = 'player'},
     }})
 
     NEX.RegisterCommand('bring', 'admin', function(xPlayer, args, showError)
@@ -54,8 +54,8 @@ Citizen.CreateThread(function()
         local coords = xPlayer.getCoords()
         args.playerId.setCoords(coords, 0)
 
-    end, false, {help = "Ir hacia un jugador", validate = true, arguments = {
-        {name = 'playerId', help = "ID de jugador a teletransportar.", type = 'player'},
+    end, false, {help = "Go to a player", validate = true, arguments = {
+        {name = 'playerId', help = "Player ID to teleport.", type = 'player'},
     }})
 
 
@@ -81,7 +81,7 @@ Citizen.CreateThread(function()
             xPlayer.sendAlert({
                 type = "error",
                 title = "Whoops",
-                text = "Este jugador ya no se encuentra disponible.",
+                text = "This player is no longer available.",
                 length = 4000,
                 style = {}
             })
@@ -124,28 +124,28 @@ Citizen.CreateThread(function()
 
             xTarget.sendAlert({
                 type = "success",
-                title = "Integridad Actualizada",
-                text = "El miembro "..xPlayer.getName().." [".. xPlayer.dbId .."] te ha actualizado tu integridad de personaje #".. xTarget.charId ..".",
+                title = "Updated Integrity",
+                text = "The member "..xPlayer.getName().." [".. xPlayer.dbId .."] has updated your character integrity #".. xTarget.charId ..".",
                 length = 8000,
                 style = {}
             })
 
             xPlayer.sendAlert({
                 type = "success",
-                title = "Integridad Actualizda",
-                text = "Has cambiado la integridad del jugador.",
+                title = "Updated integrity",
+                text = "You have changed the integrity of the player.",
                 length = 4000,
                 style = {}
             })
 
-            NEX.RegisterLog(xPlayer.source, "PLAYER", "Ha actualizado la integridad del jugador " .. xTarget.getName() .. " [".. xTarget.dbId .."] (".. xTarget.charId ..") Antes: ".. json.encode(oldData) .."\nAhora: " .. json.encode(gameData))
+            NEX.RegisterLog(xPlayer.source, "PLAYER", "Updated player integrity " .. xTarget.getName() .. " [".. xTarget.dbId .."] (".. xTarget.charId ..") Before: ".. json.encode(oldData) .."\nNow: " .. json.encode(gameData))
             
             cb(true)
         else
             xPlayer.sendAlert({
                 type = "error",
                 title = "Whoops",
-                text = "Este jugador ya no se encuentra disponible.",
+                text = "This player is no longer available.",
                 length = 4000,
                 style = {}
             })
@@ -253,7 +253,7 @@ Citizen.CreateThread(function()
                 NADMIN.refreshNameCache()
                 NADMIN.refreshBanCache()
                 
-                NADMIN.LogToAdmins(("Staff ^1%s^7 desbanea a ^1%s^7 (%s)"):format(xPlayer.getName(),(bannedidentifier~="NAC" and namecache[bannedidentifier]) and namecache[bannedidentifier] or "Desconocido",bannedidentifier))
+                NADMIN.LogToAdmins(("Staff ^1%s^7 unbalance ^1%s^7 (%s)"):format(xPlayer.getName(),(bannedidentifier~="NAC" and namecache[bannedidentifier]) and namecache[bannedidentifier] or "A stranger",bannedidentifier))
                 cb(rc>0)
             end)
         end
@@ -271,7 +271,7 @@ AddEventHandler("playerConnecting",function(name, setKick, def)
 
     local identifiers = GetPlayerIdentifiers(source)
     local _source = source
-    def.update("Iniciando conexión con el servidor...\nSi no avanza luego de cinco segundos, por favor reconecte.")
+    def.update("Starting connection to server ... \nIf you do not advance after five seconds, please reconnect.")
     
     if ConfigServer.ShowJoinQuitMessages then
         -- This need improvements, sometime playername can't be found and says 'Magick?' as username.
@@ -282,7 +282,7 @@ AddEventHandler("playerConnecting",function(name, setKick, def)
                 local xPlayer = NEX.GetPlayerFromId(xPlayers[i])
 
                 if xPlayer.getGroup() == "admin" then
-                    xPlayer.showNotification('~g~'..(GetPlayerName(_source) or "Magick?").."~w~ se une al servidor.")
+                    xPlayer.showNotification('~g~'..(GetPlayerName(_source) or "Magick?").."~w~ joined the server.")
                 end
             end
         end)
@@ -296,7 +296,7 @@ AddEventHandler("playerConnecting",function(name, setKick, def)
         end
 
         if banned then
-            print(("[^1NAC^7] Jugador %s (%s) intenta unirse, su ban expira: %s (Ban ID: #%s)"):format(GetPlayerName(source),data.receiver[1],data.length and os.date("%Y-%m-%d %H:%M",data.length) or "PERMANENTE",data.id))
+            print(("[^1NAC^7] Player %s (%s) tried to join, your ban expires: %s (Ban ID: #%s)"):format(GetPlayerName(source),data.receiver[1],data.length and os.date("%Y-%m-%d %H:%M",data.length) or "PERMANENT",data.id))
             local kickmsg = Config.banformat:format(data.reason,data.length and os.date("%Y-%m-%d %H:%M",data.length) or "PERMANENTE",data.sender_name,data.id)
             def.done(kickmsg)
         else
@@ -316,7 +316,7 @@ AddEventHandler("playerConnecting",function(name, setKick, def)
             def.done()
         end
     else
-        def.done("[NAC] No se ha encontrado su identificador, por favor reconecte.")
+        def.done("[NAC] Your identifier was not found, please reconnect.")
     end
    
 end)
@@ -329,7 +329,7 @@ AddEventHandler('playerDropped', function(reason)
             local xPlayer = NEX.GetPlayerFromId(xPlayers[i])
 
             if xPlayer.getGroup() == "admin" then
-                xPlayer.showNotification('~g~'..GetPlayerName(source).."~w~ se desconecta por: ~y~" .. reason .. "~w~.")
+                xPlayer.showNotification('~g~'..GetPlayerName(source).."~w~ disconnects for: ~y~" .. reason .. "~w~.")
             end
         end
     end

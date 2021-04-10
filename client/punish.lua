@@ -7,7 +7,7 @@ AddEventHandler("nex:Admin:GotWarned",function(sender,message)
 
     PrepareMusicEvent('MP_DM_COUNTDOWN_KILL')
     TriggerMusicEvent('MP_DM_COUNTDOWN_KILL')
-	TriggerEvent("chat:addMessage",{color={255,255,0},multiline=true,args={"[CASTIGO] ","Has recibido una advertencia"..(sender~="" and " de "..sender or "").."!\n-> "..message}})
+	TriggerEvent("chat:addMessage",{color={255,255,0},multiline=true,args={"[PUNISHMENT] ","You have received a warning"..(sender~="" and " from "..sender or "").."!\n-> "..message}})
     
     local counts = 6
     while true do
@@ -29,7 +29,7 @@ AddEventHandler("nex:Admin:GotWarned",function(sender,message)
 
     ClearTimecycleModifier()
 	PlaySoundFrontend(-1, "Success", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-	NEX.Scaleform.ShowFreemodeMessage('~y~¡ATENCIÓN!', sender .." te advierte.\n Motivo: ~r~" .. message, 7)
+	NEX.Scaleform.ShowFreemodeMessage('~y~ATTENTION!', sender .." warned you.\n Reason: ~r~" .. message, 7)
 	PlaySoundFrontend(-1, "Out_Of_Area", "DLC_Lowrider_Relay_Race_Sounds", 1)
 	PlaySoundFrontend(-1, "Zone_Enemy_Capture", "DLC_Apartments_Drop_Zone_Sounds", 1)
 

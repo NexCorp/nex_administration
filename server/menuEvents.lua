@@ -7,12 +7,12 @@ AddEventHandler('nex:Admin:ToggleFreeze', function(target, toggle)
 
         FreezePlayers[xPlayer.source] = toggle
 
-        NEX.RegisterLog(source, "STAFF", "Congelamiento: " .. xPlayer.getName() .. " | Estado: " .. tostring(toggle))
+        NEX.RegisterLog(source, "STAFF", "Freezing: " .. xPlayer.getName() .. " | Condition " .. tostring(toggle))
         TriggerClientEvent('nex:Core:SendAlert', source, {
             type = "success",
             title = "Staff Action",
             length = 5000,
-            text = "Se ha ejecutado su acción...",
+            text = "Your action has been executed...",
             style = {}
         })
     end

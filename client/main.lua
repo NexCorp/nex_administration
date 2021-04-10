@@ -24,7 +24,7 @@ Citizen.CreateThread(function()
 end)
 
 SetTextEntryToFunction = function(text)
-    local defaultText = "Ingresa un Texto:"
+    local defaultText = "Enter text:"
     AddTextEntry("FMMC_MPM_NA", text)
     Citizen.CreateThread(function()
         Citizen.Wait(1000)

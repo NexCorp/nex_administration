@@ -38,7 +38,7 @@ AddEventHandler('nex:Admin:Reports:SuccessScreenshot', function(target)
     local data = {
         type = "success",
         title = "Staff Action",
-        text = "La imagén fué enviada al discord.",
+        text = "The image was sent to the discord.",
         length = 4000,
         style = {}
     }
@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
             xPlayer.triggerEvent('nex:Admin:Reports:CreateReport', message)
 
         end, false, {help = "Create and send report for the admin", validate = false, arguments = {
-            {name = 'mensaje', help = "mensaje", type = 'multistring'}
+            {name = 'message', help = "message", type = 'multistring'}
         }})
     else 
         print("[NexAdmin] Your 'report' command has been disabled.")
@@ -80,19 +80,19 @@ Citizen.CreateThread(function()
         local discordData = {
             embeds = { 
                 {
-                    title = "SOLICITUD DE SCREENSHOT",
+                    title = "SCREENSHOT APPLICATION",
                     color = 31487,
                     fields = { 
                         {
-                            name = "Solicitante: ",
+                            name = "Applicant: ",
                             value = GetPlayerName(adminSource)
                         }, 
                         {
-                            name = "Usuario: " .. GetPlayerName(source),
+                            name = "Applicant: " .. GetPlayerName(source),
                             value = "CharId: ".. xPlayer.charId .." | DbId: ".. xPlayer.dbId .." | GameId: "..xPlayer.source
                         }, 
                         {
-                            name = "Captura de pantalla:",
+                            name = "Screenshot:",
                             value = "🔽🔽🔽🔽🔽🔽"
                         } 
                     },
@@ -101,7 +101,7 @@ Citizen.CreateThread(function()
                     }
                 } 
             },
-            username = "Ximena de Soporte",
+            username = "Ximena of Support",
             avatar_url = "https://images-ext-2.discordapp.net/external/05w3zIVuaUzJS6zPgq1FuOmG4kif6_NCPQQVHS864mw/https/images-ext-2.discordapp.net/external/PN4jUr9A0-7sD4iKtfJVB3MeTVaGQMhUaihqjp3qFRc/https/cdn.probot.io/HkWlJsRlXU.gif" 
 
         }
@@ -120,8 +120,8 @@ Citizen.CreateThread(function()
         if ((wait[source]) and (wait[source]+10000 > GetGameTimer())) then
             local data = {
                 type = "error",
-                title = "Reportes",
-                text = "Por favor, espera unos segundos antes de enviar otro mensaje de soporte.",
+                title = "Reports",
+                text = "Please wait a few seconds before sending another support message.",
                 length = 8000,
                 style = {}
             }
@@ -132,8 +132,8 @@ Citizen.CreateThread(function()
         if string.len(message) < 8 then
             local data = {
                 type = "error",
-                title = "Reportes",
-                text = "Por favor, especifica más información en tu reporte.",
+                title = "Reports",
+                text = "Please specify more information in your report.",
                 length = 8000,
                 style = {}
             }
@@ -144,8 +144,8 @@ Citizen.CreateThread(function()
         if blocked[source] then
             local data = {
                 type = "error",
-                title = "Reportes",
-                text = "Has sido bloqueado del sistema de reportes hasta nuevo aviso.",
+                title = "Reports",
+                text = "You have been blocked from the reporting system until further notice.",
                 length = 8000,
                 style = {}
             }
@@ -159,7 +159,7 @@ Citizen.CreateThread(function()
         local identifier = xPlayer.identifier
         local job = xPlayer.job.name
         local ping = GetPlayerPing(xPlayer.source)
-        local money = "Money: " .. xPlayer.getAccount('money').money .. "  Banco: " .. xPlayer.getAccount('bank').money
+        local money = "Money: " .. xPlayer.getAccount('money').money .. "  Bank: " .. xPlayer.getAccount('bank').money
 
 
         reports[report] = { 
@@ -179,19 +179,19 @@ Citizen.CreateThread(function()
         local discordData = {
             embeds = { 
                 {
-                    title = "REPORTE RECIBIDO",
+                    title = "REPORT RECEIVED",
                     color = 31487,
                     fields = { 
                         {
-                            name = "Usuario: " .. GetPlayerName(source),
+                            name = "User: " .. GetPlayerName(source),
                             value = "CharId: ".. xPlayer.charId .." | DbId: ".. xPlayer.dbId .." | GameId: "..xPlayer.source
                         }, 
                         {
-                            name = "Mensaje",
+                            name = "Message",
                             value = message
                         },
                         {
-                            name = "Captura de pantalla:",
+                            name = "Screenshot:",
                             value = "🔽🔽🔽🔽🔽🔽"
                         } 
                     },
@@ -200,7 +200,7 @@ Citizen.CreateThread(function()
                     }
                 } 
             },
-            username = "Mauricio de Soporte",
+            username = "Mauricio from Support",
             avatar_url = "https://images-ext-2.discordapp.net/external/05w3zIVuaUzJS6zPgq1FuOmG4kif6_NCPQQVHS864mw/https/images-ext-2.discordapp.net/external/PN4jUr9A0-7sD4iKtfJVB3MeTVaGQMhUaihqjp3qFRc/https/cdn.probot.io/HkWlJsRlXU.gif" 
 
         }
@@ -224,8 +224,8 @@ Citizen.CreateThread(function()
         if string.match(message, "heal") or string.match(message, "revive") or string.match(message, "heal") then
             local data = {
                 type = "success",
-                title = "Reportes",
-                text = "Su reporte ha sido enviado, pero recuerde que solicitar suministros mágicos como 'revive' o 'heal' entre otros puede demorar mas en ser atendido.",
+                title = "Reports",
+                text = "Your report has been sent, but remember that requesting magical supplies such as 'revive' or 'heal' among others may take longer to be served.",
                 length = 8000,
                 style = {}
             }
@@ -233,8 +233,8 @@ Citizen.CreateThread(function()
         else
             local data = {
                 type = "success",
-                title = "Reportes",
-                text = "Se ha enviado su solicitud de ayuda.",
+                title = "Reports",
+                text = "Your request for help has been sent.",
                 length = 8000,
                 style = {}
             }
