@@ -9,6 +9,10 @@ Citizen.CreateThread(function()
         Citizen.Wait(100)
     end
 
+    NEX.RegisterCommand('tpm', 'admin', function(xPlayer, args, showError)
+        xPlayer.triggerEvent('nex:Admin:TpMaker')
+    end, true, {help = "Go to your personal blip.", validate = false, arguments = {}})
+
     NEX.RegisterCommand('adminpad', 'admin', function(xPlayer, args, showError)
         
         if not args.refresh then
@@ -35,9 +39,9 @@ Citizen.CreateThread(function()
         {name = 'refresh', help = "Utiliza 'refresh' para refrescar la lista de sanciones.", type = 'any'},
     }})
 
-    NEX.RegisterCommand('reports', 'admin', function(xPlayer, args, showError)
-        TriggerClientEvent("nex:Admin:Reports:ShowPanel", xPlayer.source)
-    end, false, {help = "PAD de Administración", validate = true, arguments = {}})
+    -- NEX.RegisterCommand('reports', 'admin', function(xPlayer, args, showError)
+    --     TriggerClientEvent("nex:Admin:Reports:ShowPanel", xPlayer.source)
+    -- end, false, {help = "PAD de Administración", validate = true, arguments = {}})
 
 
     NEX.RegisterCommand('goto', 'admin', function(xPlayer, args, showError)

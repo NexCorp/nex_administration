@@ -45,12 +45,7 @@ PlayersMenu.Main = function()
         end
     end
 
-    WarMenu.MenuButton('[📛] Sancionar Jugador', 'nexadmin_players_punishments')
-
-    -- if WarMenu.Button('[📛] Sanciones') then
-    --     TriggerEvent("nex:Admin:ShowPADInterface", "punishlist")
-    --     WarMenu.CloseMenu()
-    -- end
+    WarMenu.MenuButton('[📛] Punish Player', 'nexadmin_players_punishments')
 
     if WarMenu.Button('[📛] Generar código CK') then
         NEX.UI.Menu.Open("dialog", GetCurrentResourceName(), 'nex_ck_generator', {
