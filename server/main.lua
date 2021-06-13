@@ -201,12 +201,16 @@ Citizen.CreateThread(function()
 
         for i=1, #xPlayers, 1 do
             local xPlayer = NEX.GetPlayerFromId(xPlayers[i])
+            local xPlayerPed = GetPlayerPed(xPlayer.source)
             local data = {
-                name        = xPlayer.getName(),
-                id          = xPlayer.source,
-                dbId        = xPlayer.dbId,
-                charId      = xPlayer.charId,
-                isFreeze    = FreezePlayers[xPlayer.source] or false
+                name            = xPlayer.getName(),
+                id              = xPlayer.source,
+                dbId            = xPlayer.dbId,
+                charId          = xPlayer.charId,
+                isFreeze        = FreezePlayers[xPlayer.source] or false,
+                playerPed       = xPlayerPed,
+                playerCoords    = GetEntityCoords(xPlayerPed),
+                networkId       = NetworkGetNetworkIdFromEntity(xPlayerPed)
             }
 
             table.insert(players, data)

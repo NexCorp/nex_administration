@@ -8,22 +8,25 @@ PlayersMenu.integrityPlayer = nil
 PlayersMenu.ProccessOnlinePlayers = function()
     PlayersMenu.OnlinePlayers = {}
     NEX.TriggerServerCallback('nex:Admin:GetOnlinePlayers', function(playersOnline)
-        for k, player in pairs(GetActivePlayers()) do
+        for k, player in pairs(serverPlayersOnline) do
+            
+            local pId = NetworkGetEntityOwner(GetPlayerPed(player))
             local playerId = GetPlayerServerId(player)
+
             if player == PlayersMenu.myIdentity then
                 PlayersMenu.myPlayer = player
             end
 
             for _, sPlayer in pairs(playersOnline) do
-                if sPlayer.id == playerId then
+                if sPlayer.id == player then
                     PlayersMenu.OnlinePlayers[player] = {
                         ped = GetPlayerPed(player),
                         name = sPlayer.name,
                         id = player,
-                        serverId = playerId,
+                        serverId = player,
                         dbId = sPlayer.dbId,
                         charId = sPlayer.charId,
-                        isFreeze = sPlayer.isFreeze
+                        isFreeze = sPlayer.isFreeze,
                     }
                 end
             end
